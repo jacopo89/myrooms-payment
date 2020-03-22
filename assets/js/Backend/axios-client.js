@@ -1,8 +1,4 @@
 import axios from 'axios/index';
-import useCookies from "./hooks/useCookies";
-import {useSelector} from "react-redux";
-
-const [accessToken, username, authenticated] = useCookies();
 
 const instance = axios.create({
     baseURL: 'http://',
@@ -12,7 +8,7 @@ const instance = axios.create({
 });
 
 
-const BackendClient = (token, responseType=null)=>
+const BackendClient = (token = null, responseType=null)=>
     {
         return (axios.create({
             baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -31,4 +27,4 @@ const BackendClient = (token, responseType=null)=>
 
 
 export default instance;
-export {DynamicBackendClient};
+export {BackendClient};
