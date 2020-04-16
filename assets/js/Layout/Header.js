@@ -1,40 +1,33 @@
 import React, {Component} from 'react';
 import '../../css/header.css';
-import {Link} from "react-router-dom";
-import {Col, Container, Grid, Icon, Nav, Navbar, Row} from "rsuite";
+import {ButtonToolbar, Col, Container, Dropdown, Grid, Icon, Nav, Navbar, Row} from "rsuite";
+import {useTranslation} from "react-i18next";
 
 
 export default function Header(){
 
-   /* const navbar = (<Navbar expand="md" sticky="top">
-        <Navbar.Brand href="#home">
-            <img className="logo_image" src=""/>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav">
-            <i className="material-icons">notes</i>
-        </Navbar.Toggle>
-        <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-                <Link to="/" className="nav-link">Home </Link>
-                <Link to="/authoring" className="nav-link">I miei contenuti</Link>
-                <Link to="/codelab" className="nav-link">Jupyter Notebook</Link>
-            </Nav>
-        </Navbar.Collapse>
-    </Navbar>);*/
+    const { t, i18n } = useTranslation();
+    const changeLanguage = code => {
+        i18n.changeLanguage(code);
+    };
+    const logout = () => console.log("logout");
 
+    const CustomDropdown = ({ ...props }) => (
+        <Dropdown {...props}>
+            <Dropdown.Item onClick={() => changeLanguage('it')} > It</Dropdown.Item>
+            <Dropdown.Item onClick={() => changeLanguage('en')} > En</Dropdown.Item>
+        </Dropdown>
+    );
 
         return (
 
             <nav id="main_header">
-                <Container className="header_container">
-                    <Nav>
-                        <Nav.Item icon={<Icon icon="home" />}>Home</Nav.Item>
-                        <Nav.Item>News</Nav.Item>
-                        <Nav.Item>Solutions</Nav.Item>
-                        <Nav.Item>Products</Nav.Item>
-                        <Nav.Item>About</Nav.Item>
-                    </Nav>
-                </Container>
+                <ButtonToolbar>
+                    <CustomDropdown title="Hover" trigger="hover" />
+                    <CustomDropdown title="Click" trigger="click" />
+                    <CustomDropdown title="Right Click" trigger="contextMenu" />
+                    <CustomDropdown title="Click and Hover" trigger={['click', 'hover']} />
+                </ButtonToolbar>
             </nav>
         );
 

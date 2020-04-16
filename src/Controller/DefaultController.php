@@ -16,7 +16,7 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/", name="home", defaults={"reactRouting": null})
+     * @Route("/app/{route}", name="home")
      */
     public function index()
     {

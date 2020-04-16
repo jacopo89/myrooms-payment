@@ -1,5 +1,9 @@
-const initialState = {authenticated:false, user:null};
+import useCookies from "../Backend/useCookies";
+
 import * as ActionTypes from "./actions";
+const [accessToken, authenticated] = useCookies();
+
+const initialState = {authenticated:authenticated, user:null};
 
 const reducer = (state = initialState, action) => {
 

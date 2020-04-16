@@ -1,8 +1,8 @@
-import {Button, ButtonToolbar, ControlLabel, Form, FormControl, FormGroup, HelpBlock} from "rsuite";
 import React, {useEffect, useState} from "react";
 import {useRegister} from "../../Backend/useBackend";
 import {useHistory} from "react-router-dom";
 import RegistrationForm from "../Components/RegistrationForm";
+import * as Routes from '../../routes';
 
 export default function Registration(){
 
@@ -10,7 +10,7 @@ export default function Registration(){
     const [registerResponse, postRegisterHandler] = useRegister();
 
     const successCallback = () => {
-        history.push("/login");
+        history.push(Routes.login);
     };
 
     const register = (formData) => {

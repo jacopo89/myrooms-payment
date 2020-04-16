@@ -25,3 +25,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\Serializer:
+      class: App\Service\Serializer
+      autowire: true
+      public: true
+      autoconfigure: true
+      arguments: []

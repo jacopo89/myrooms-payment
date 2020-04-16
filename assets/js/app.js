@@ -18,49 +18,41 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import reducer from "./Redux/reducer";
 import Layout from "./Layout/Layout";
 import Registration from "./Login/Pages/Registration";
+import RecoverPasswordForm from "./Login/Components/RecoverPasswordForm";
 import Dashboard from "./MainApp/Dashboard";
+import * as Routes from './routes';
 import './i18n';
-import {useTranslation} from "react-i18next";
-import {Button} from "rsuite";
-
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
-
 
 function App(){
-
-    const { t, i18n } = useTranslation();
-
-
-
     const {authenticated} = useSelector(state=>state);
     const registrationPage = <Layout page={<Registration/>}/>;
+    const recoverPage = <Layout page={<RecoverPasswordForm/>}/>;
     const dashboardPage = <Layout page={<Dashboard/>}/>;
     const loginPage = <Layout page={<Login/>}/>;
 
     const mainApp =
         (<>
             <Switch>
-                <Route path="/register" children={registrationPage}/>
-                <Route path="/dashboard" children={dashboardPage}/>
+                <Route path={Routes.registration} children={registrationPage}/>
+                <Route path={Routes.passwordRecovery} children={recoverPage}/>
+                <Route path={Routes.dashboard} children={dashboardPage}/>
+                <Route path={Routes.main} children={loginPage}/>
             </Switch>
         </>);
 
     const authRequired =
         (<>
             <Switch>
-                <Route exact path="/" children={loginPage} />
-                <Route exact path="/register" children={registrationPage}/>
+                <Route exact path={Routes.main} children={loginPage} />
+                <Route exact path={Routes.registration} children={registrationPage}/>
             </Switch>
         </>);
 
 
     const render = (authenticated) ? mainApp : authRequired ;
-
+    console.log("render", render);
     return <>{render}</>;
 }
-
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

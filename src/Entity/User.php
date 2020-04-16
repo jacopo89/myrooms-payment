@@ -33,6 +33,16 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $recoveryKey;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $recoveryKeyCreationTime;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,5 +119,29 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getRecoveryKey(): ?string
+    {
+        return $this->recoveryKey;
+    }
+
+    public function setRecoveryKey(?string $recoveryKey): self
+    {
+        $this->recoveryKey = $recoveryKey;
+
+        return $this;
+    }
+
+    public function getRecoveryKeyCreationTime(): ?\DateTimeInterface
+    {
+        return $this->recoveryKeyCreationTime;
+    }
+
+    public function setRecoveryKeyCreationTime(?\DateTimeInterface $recoveryKeyCreationTime): self
+    {
+        $this->recoveryKeyCreationTime = $recoveryKeyCreationTime;
+
+        return $this;
     }
 }

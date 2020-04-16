@@ -1,5 +1,4 @@
 import {useState} from "react";
-import {useRegister} from "../../Backend/useBackend";
 import {Button, ButtonToolbar, ControlLabel, Form, FormControl, FormGroup, HelpBlock} from "rsuite";
 import React from "react";
 
@@ -33,7 +32,7 @@ export default function RegistrationForm({registrationProps}){
         </FormGroup>
         <FormGroup>
             <ButtonToolbar>
-                <Button appearance="primary" onClick={registrationProps.registrationHandler(formData)}>Submit</Button>
+                <Button appearance="primary" onClick={()=>registrationProps.registrationHandler(formData)}>Submit</Button>
                 <Button appearance="default">Cancel</Button>
             </ButtonToolbar>
         </FormGroup>

@@ -26,6 +26,8 @@
         "react-thunk": "^1.0.0",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "rsuite": "^4.3.2"
+        "rsuite": "^4.3.2",
+        "styled-components": "^5.1.0",
+        "universal-cookie": "^4.0.3"
     }
 }

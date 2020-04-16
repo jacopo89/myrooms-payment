@@ -117,7 +117,6 @@ export function useCreateHook(Client, url, method, defaultDataValue){
 
                 Client.delete(url)
                     .then(response => {
-
                         //Data Manipulation
                         if(callbacks.dataManipulationFunction){
                             let manipulatedData = callbacks.dataManipulationFunction(response.data);
