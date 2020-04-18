@@ -1,7 +1,8 @@
 import {Button, ButtonToolbar, ControlLabel, Form, FormControl, FormGroup, HelpBlock} from "rsuite";
 import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {RegistrationBox} from "../../styledComponents/CustomComponents";
+import * as Routes from '../../routes';
 
 export default function LoginForm({loginProps}){
 
@@ -24,17 +25,15 @@ export default function LoginForm({loginProps}){
         <FormGroup>
             <ControlLabel>Email</ControlLabel>
             <FormControl name="email" type="email" onChange={setEmail} />
-            <HelpBlock tooltip>Required</HelpBlock>
         </FormGroup>
         <FormGroup>
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel><div style={{display:"flex", justifyContent:"space-between"}}><span>Password</span> <Link to={Routes.passwordRecovery}>Forgot password?</Link> </div></ControlLabel>
             <FormControl name="password" type="password" onChange={setPassword} />
         </FormGroup>
         <FormGroup>
             <ButtonToolbar>
                 <Button appearance="primary" onClick={()=> loginProps.loginHandler(formData)}>Submit</Button>
-                <Button appearance="default" onClick={()=> history.push("/recover")}>Recover</Button>
-                <Button appearance="default">Cancel</Button>
+                <Button appearance="default" onClick={()=> history.push(Routes.changePassword)}>Cancel</Button>
                 {registrationButton}
             </ButtonToolbar>
         </FormGroup>

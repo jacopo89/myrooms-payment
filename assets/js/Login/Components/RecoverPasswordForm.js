@@ -1,5 +1,5 @@
 import {Button, ButtonToolbar, ControlLabel, Form, FormControl, FormGroup, HelpBlock} from "rsuite";
-import React from "react";
+import React, {useState} from "react";
 import {Schema} from 'rsuite';
 import {RegistrationBox} from "../../styledComponents/CustomComponents";
 import TextField from "./TextField";
@@ -15,14 +15,26 @@ export default function RecoverPasswordForm(){
             .isRequired('This field is required.')
     });
 
+    const [formValue, setFormValue] = useState();
+
     const history = useHistory();
     const [status, passwordRecoveryHandler] = usePasswordRecovery();
-    const passwordRecovery = (data) => passwordRecoveryHandler(data);
+    const passwordRecovery = (formValue) => {
+        const formData = new FormData();
+        Object.keys(formValue).forEach((key)=> formData.append(key, formValue[key] ));
+        passwordRecoveryHandler(formData);
+    }
 
-    const recoverPasswordForm = (<Form model={model} onSubmit={passwordRecovery}>
+
+
+    const recoverPasswordForm = (<Form
+        model={model}
+        formValue={formValue}
+        onChange={(formValue)=>{console.log(formValue); setFormValue(formValue) }}
+        onSubmit={()=>passwordRecovery(formValue)}>
         <TextField name="recoveryKey" label="Your email or MoreThanAJob username" />
         <ButtonToolbar>
-            <Button appearance="primary" >Submit</Button>
+            <Button appearance="primary" type="submit" >Submit</Button>
             <Button appearance="default" onClick={()=> history.push("/login")}>Login</Button>
         </ButtonToolbar>
     </Form>);

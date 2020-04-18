@@ -22,18 +22,25 @@ import RecoverPasswordForm from "./Login/Components/RecoverPasswordForm";
 import Dashboard from "./MainApp/Dashboard";
 import * as Routes from './routes';
 import './i18n';
+import ChangePassword from "./Login/Components/ChangePassword";
 
 function App(){
     const {authenticated} = useSelector(state=>state);
     const registrationPage = <Layout page={<Registration/>}/>;
+    const changePasswordPage = <Layout page={<ChangePassword/>}/>;
     const recoverPage = <Layout page={<RecoverPasswordForm/>}/>;
     const dashboardPage = <Layout page={<Dashboard/>}/>;
     const loginPage = <Layout page={<Login/>}/>;
+
+
+
+
 
     const mainApp =
         (<>
             <Switch>
                 <Route path={Routes.registration} children={registrationPage}/>
+                <Route exact path={Routes.changePassword} children={changePasswordPage}/>
                 <Route path={Routes.passwordRecovery} children={recoverPage}/>
                 <Route path={Routes.dashboard} children={dashboardPage}/>
                 <Route path={Routes.main} children={loginPage}/>

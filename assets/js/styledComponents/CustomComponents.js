@@ -10,7 +10,5 @@ export const RegistrationBox = styled.div`
     border-radius: 8px;
     border-style: solid;
     display: flex;
-    /* min-width: 381px; */
-    align-items: center;
-    justify-content: space-around;
+    flex-direction: column;
     `

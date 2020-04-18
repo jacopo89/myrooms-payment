@@ -16,3 +16,9 @@ export function  usePasswordRecovery() {
     const backendClient = BackendClient();
     return useCreateHook(backendClient,'/recovery','post',false);
 }
+
+export function  useChangePassword() {
+    const backendClient = BackendClient();
+    return useCreateHook(backendClient,'/passwordchange','post',false);
+}
+

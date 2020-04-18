@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\Mailer;
 use App\Service\Serializer;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,19 +11,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class SecurityController extends AbstractController
 {
     private $em;
-    private $mailer;
     private $serializer;
+    private $mailer;
+    private $mailerSender;
 
-    public function __construct(EntityManagerInterface $em, Mailer $mailer, Serializer $serializer)
+    public function __construct(EntityManagerInterface $em, \Swift_Mailer $mailer, Serializer $serializer)
     {
         $this->em = $em;
-        $this->mailer = $mailer;
         $this->serializer = $serializer;
+        $this->mailer = $mailer;
+
     }
 
     /**
@@ -83,7 +83,7 @@ class SecurityController extends AbstractController
 
         $this->em->persist($user);
         $this->em->flush();
-        $this->mailer->registrationMail($mail);
+        $this->registrationMail($mail);
 
         return new Response($user->getId());
 
@@ -98,7 +98,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/recover", name="app_logout")
+     * @Route("/recovery", name="app_recovery_password")
      * @param Request $request
      * @return Response
      */
@@ -114,7 +114,7 @@ class SecurityController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->mailer->recoveryPasswordMail($user->getEmail(), $newRecoveryKey);
+            $this->recoveryPasswordMail($user->getEmail(), $newRecoveryKey);
 
             $content = true;
             $status = Response::HTTP_OK;
@@ -137,9 +137,9 @@ class SecurityController extends AbstractController
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $mail = $request->get('mail');
+        $email = $request->get('email');
         $password = $request->get('password');
-        $user = $this->em->getRepository(User::class)->findOneBy(['email'=> $mail]);
+        $user = $this->em->getRepository(User::class)->findOneBy(['email'=> $email]);
         if($user){
             $encodedPassword = $encoder->encodePassword($user,$password);
             $user->setPassword($encodedPassword);
@@ -172,5 +172,46 @@ class SecurityController extends AbstractController
         }
 
         return $random_string;
+    }
+
+    public function registrationMail($receiverMail){
+
+        $mailerSender = $this->getParameter('app.mail_sender');
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom($mailerSender)
+            ->setTo($receiverMail)
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/login/registration.html.twig',
+                    ['name' => $receiverMail]
+                ),
+                'text/html'
+            )
+
+            // you can remove the following code if you don't define a text version for your emails
+        ;
+
+        $this->mailer->send($message);
+    }
+
+    public function recoveryPasswordMail($receiverMail, $newRecoveryKey){
+        $mailerSender = $this->getParameter('app.mail_sender');
+        $message = (new \Swift_Message('Password recovery'))
+            ->setFrom($mailerSender)
+            ->setTo($receiverMail)
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/login/recoverypassword.html.twig',
+                    ['recoveryKey' => $newRecoveryKey,
+                        'mail'=> $receiverMail]
+                ),
+                'text/html'
+            )
+        ;
+
+        $this->mailer->send($message);
+
     }
 }

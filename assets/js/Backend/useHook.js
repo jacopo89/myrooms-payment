@@ -3,6 +3,8 @@ import {useState} from "react";
 export function useCreateHook(Client, url, method, defaultDataValue){
 
     const [data, setData] = useState(defaultDataValue);
+    const [loaded, setLoaded] = useState(false);
+    const [status, setStatus] = useState(null);
     const successMessage = url + " SUCCESS";
     const errorMessage = url + " ERROR";
     const defaultSuccessCallback = () => {/*console.log(successMessage);*/};
@@ -15,6 +17,10 @@ export function useCreateHook(Client, url, method, defaultDataValue){
         dataManipulationFunction: null
     };
 
+    let statusResponse = null;
+    if(status!==null){
+        statusResponse = (status===200);
+    }
 
     switch(method){
         case "get":
@@ -25,9 +31,11 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                 if(Array.isArray(getParameters)){
                     getParameters.forEach((parameter)=>{url += "/" + parameter });
                 }else{
-                    if(getParameters!==undefined){
+                    if(getParameters!==undefined && getParameters!==null){
 
                         url+="/"+getParameters;
+                    }else if(getParameters===null){
+
                     }
                 }
                 //console.log("Get Url", url);
@@ -48,8 +56,11 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                         }else{
                             defaultCallbacks.successCallback();
                         }
+                        setLoaded(true);
+                        setStatus(response.status);
                     })
-                    .catch(()=>{
+                    .catch((e)=>{
+
                         //ErrorCallback
                         // console.log("Is callback undefined", callbacks.errorCallback===undefined);
                         if(callbacks.errorCallback!==undefined){
@@ -57,12 +68,13 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                         }else{
                             defaultCallbacks.errorCallback()
                         }
+                        setStatus(e.response.status);
                     })
 
                 //Clearing the url so the url can be used afterwards
                 url = startUrl;
             }
-            return [data, requestHandler];
+            return [data, requestHandler, loaded, statusResponse];
         }
         case "post":
         {
@@ -70,6 +82,7 @@ export function useCreateHook(Client, url, method, defaultDataValue){
 
                 Client.post(url, formData)
                     .then(response => {
+                        console.log("Response", response);
                         //Data Manipulation
                         //console.log(callbacks);
                         if(callbacks.dataManipulationFunction){
@@ -88,6 +101,9 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                             //console.log("Default success callback");
                             defaultCallbacks.successCallback();
                         }
+                        setLoaded(true);
+                        setStatus(response.status);
+
                     })
                     .catch((e)=>{
                         //ErrorCallback
@@ -96,9 +112,10 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                         }else{
                             defaultCallbacks.errorCallback(e);
                         }
+                        setStatus(e.response.status);
                     })
             };
-            return [data,requestHandler];
+            return [data,requestHandler, loaded, statusResponse];
         }
         case "delete":
         {
@@ -117,6 +134,7 @@ export function useCreateHook(Client, url, method, defaultDataValue){
 
                 Client.delete(url)
                     .then(response => {
+
                         //Data Manipulation
                         if(callbacks.dataManipulationFunction){
                             let manipulatedData = callbacks.dataManipulationFunction(response.data);
@@ -130,8 +148,11 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                         }else{
                             defaultCallbacks.successCallback();
                         }
+                        setLoaded(true);
+                        setStatus(response.status);
                     })
-                    .catch(()=>{
+                    .catch((e)=>{
+                        setStatus(e.response.status);
                         //ErrorCallback
                         // console.log("Is callback undefined", callbacks.errorCallback===undefined);
                         if(callbacks.errorCallback!==undefined){
@@ -144,7 +165,7 @@ export function useCreateHook(Client, url, method, defaultDataValue){
                 //Clearing the url so the url can be used afterwards
                 url = startUrl;
             }
-            return [data, requestHandler];
+            return [data, requestHandler, loaded, statusResponse];
         }
     }
 
