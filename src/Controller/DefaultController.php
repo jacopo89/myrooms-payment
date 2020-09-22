@@ -15,12 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
 
+
     /**
-     * @Route("/app/{route}", name="home")
+     * @Route("/{route}", name="home", requirements={"route"="^(?!api).*$"})
      */
     public function index()
     {
         return $this->render('default/base.html.twig');
     }
+
+
+
 
 }

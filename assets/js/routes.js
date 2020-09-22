@@ -1,6 +1,6 @@
-export const main = "/app/";
-export const registration = "/app/registration";
-export const login = "/app/login";
-export const passwordRecovery = "/app/recover";
-export const dashboard = "/app/dashboard";
-export const changePassword = "/app/passwordchange";
+export const main = "/";
+export const registration = "/registration";
+export const login = "/login";
+export const passwordRecovery = "/recover";
+export const dashboard = "/dashboard";
+export const changePassword = "/passwordchange";

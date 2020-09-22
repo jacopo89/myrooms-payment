@@ -34,8 +34,6 @@ function App(){
 
 
 
-
-
     const mainApp =
         (<>
             <Switch>
@@ -57,7 +55,6 @@ function App(){
 
 
     const render = (authenticated) ? mainApp : authRequired ;
-    console.log("render", render);
     return <>{render}</>;
 }
 
