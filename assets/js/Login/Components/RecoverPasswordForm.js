@@ -32,7 +32,7 @@ export default function RecoverPasswordForm(){
         formValue={formValue}
         onChange={(formValue)=>{console.log(formValue); setFormValue(formValue) }}
         onSubmit={()=>passwordRecovery(formValue)}>
-        <TextField name="recoveryKey" label="Your email or MoreThanAJob username" />
+        <TextField name="recoveryKey" label="Your email" />
         <ButtonToolbar>
             <Button appearance="primary" type="submit" >Submit</Button>
             <Button appearance="default" onClick={()=> history.push("/login")}>Login</Button>
