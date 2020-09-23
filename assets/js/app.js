@@ -23,6 +23,8 @@ import Dashboard from "./MainApp/Dashboard";
 import * as Routes from './routes';
 import './i18n';
 import ChangePassword from "./Login/Components/ChangePassword";
+import {PaymentForm} from "./MainApp/Payment/PaymentForm";
+import PaymentPage from "./MainApp/Payment/PaymentPage";
 
 function App(){
     const {authenticated} = useSelector(state=>state);
@@ -31,7 +33,7 @@ function App(){
     const recoverPage = <Layout page={<RecoverPasswordForm/>}/>;
     const dashboardPage = <Layout page={<Dashboard/>}/>;
     const loginPage = <Layout page={<Login/>}/>;
-
+    const paymentPage = <Layout page={<PaymentPage />} />;
 
 
     const mainApp =
@@ -48,8 +50,9 @@ function App(){
     const authRequired =
         (<>
             <Switch>
-                <Route exact path={Routes.main} children={loginPage} />
+                <Route exact path={Routes.main} children={paymentPage} />
                 <Route exact path={Routes.registration} children={registrationPage}/>
+
             </Switch>
         </>);
 
