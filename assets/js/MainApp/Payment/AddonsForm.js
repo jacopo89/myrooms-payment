@@ -1,46 +1,40 @@
-import {Col, Form, Grid, Row} from "rsuite";
+import {FormGroup, FormControl, Panel, Col, Form, Grid, Row, Checkbox, CheckboxGroup} from "rsuite";
 import TextField from "../../Login/Components/TextField";
 import React from "react";
 
-export default function AddonsForm(){
-    return (<Form fluid>
+export default function AddonsForm({ref,formValue, updater, addons}){
+
+
+
+    const addonsPanel = addons.map((addon, index)=> <AddonsCard key={index} addon={addon}/> )
+
+    return (
         <Grid fluid>
-            <h3>Your contact details</h3>
-            <Row>
-                <TextField name="firstname" label="First name" />
-            </Row>
-            <Row>
-                <TextField name="lastname" label="Last Name"/>
-            </Row>
-            <Row>
-                <TextField name="email" label="Email" />
-            </Row>
-            <h3>Your personal information</h3>
-            <Row>
-                <TextField name="phone" label="Phone"/>
-            </Row>
-            <Row>
-                <TextField name="street" label="Street address" />
-            </Row>
-            <Row>
-                <TextField name="address" label="Address 2" />
-            </Row>
-            <Row>
-                <Col xs={12}>
-                    <TextField name="city" label="City" />
-                </Col>
-                <Col xs={12}>
-                    <TextField name="state" label="State/province" />
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={12}>
-                    <TextField name="zip" label="ZIP" />
-                </Col>
-                <Col xs={12}>
-                    <TextField name="country" label="Country" />
-                </Col>
-            </Row>
-        </Grid>
-    </Form>)
+            <Form fluid ref={ref} formValue={formValue} onChange={updater}>
+                <FormGroup>
+                    <FormControl accepter={CheckboxGroup} name="addons">
+                        {addonsPanel}
+                    </FormControl>
+                </FormGroup>
+            </Form>
+        </Grid>)
+}
+
+
+
+
+function AddonsCard({addon}){
+    const {description, name, title, price} = addon;
+    return <Panel style={{width:"100%"}} header={<AddonsCardTitle addon={addon} />} collapsible>
+        {description}
+    </Panel>
+}
+
+function AddonsCardTitle({addon}){
+    const {description, name, title, price} = addon;
+
+    const checkBoxTitle = title + " £ " + price;
+
+    return <Checkbox defaultChecked value={name}>{checkBoxTitle}</Checkbox>
+
 }

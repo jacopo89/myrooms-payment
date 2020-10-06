@@ -1,11 +1,11 @@
 import {ControlLabel, FormControl, FormGroup} from "rsuite";
 import React from "react";
 
-export default function TextField({ name, label, accepter, ...rest }) {
+export default function TextField({ name, label, accepter, style, ...rest }) {
     return (
-        <FormGroup>
+        <FormGroup style={style}>
             <ControlLabel>{label} </ControlLabel>
-            <FormControl name={name} accepter={accepter} {...rest} />
+            <FormControl style={style} name={name} accepter={accepter} {...rest} />
         </FormGroup>
     );
 }
