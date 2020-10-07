@@ -3,10 +3,13 @@
 
 namespace App\Controller;
 
+use Omnipay\Omnipay;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 /**
@@ -16,14 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class StripeController extends AbstractController
 {
+    private $router;
 
+    public function __construct(UrlGeneratorInterface $router)
+    {
+        $this->router = $router;
+    }
 
     /**
      * @param Request $request
      * @Route("/booking", methods={"POST"})
-     * @return JsonResponse
+     * @return Response
      */
     public function booking(Request $request){
+
+        $token = json_decode($request->request->get('cardInfo'));
 
         $info = json_decode($request->request->get('info'), true);
         $addonInfo = json_decode($request->get('addonInfo'), true);
@@ -33,10 +43,11 @@ class StripeController extends AbstractController
 
         //stripe payment
 
-        $this->stripePayment($cardInfo, $amountInfo);
+        $response = $this->stripePayment($token, $amountInfo);
 
         //creazione tenancy su arthur (director?)
 
+        return new Response($response);
 
         //send email
 
@@ -46,32 +57,26 @@ class StripeController extends AbstractController
     }
 
 
-    private function stripePayment($cardDetails, $amountDetails){
-        $gateway = Omnipay::create('Stripe');
-        $gateway->setApiKey('');
+    private function stripePayment($token, $amountDetails){
+        $stripe = Omnipay::create('Stripe');
+        $stripe->setApiKey('sk_test_8GCPDMiC8WmtbiS77TGzvJ9M');
 
-// Example form data
-        $cardData = [
-            'number' => $cardDetails["number"],
-            'expiryMonth' => $cardDetails["expiryMonth"],
-            'expiryYear' => $cardDetails["expiryYear"],
-            'cvv' => $cardDetails["cvv"]
-        ];
+        $url = $this->router->generate("home", ["route"=>"success"], UrlGeneratorInterface::ABSOLUTE_PATH);
 
 // Send purchase request
-        $response = $gateway->authorize(
-            [
-                'amount' => $amountDetails["amount"],
-                'currency' => $amountDetails["currency"],
-                'card' => $cardData
-            ]
-        )->send();
+        $response = $stripe->authorize([
+            'amount' => '1',
+            'currency' => 'USD',
+            'description' => 'This is a test purchase transaction.',
+            'token' => $token->id,
+            'returnUrl' => $url,
+            'confirm' => true,
+        ])->send();
 
 // Process response
         if ($response->isSuccessful()) {
 
             // Payment was successful
-            print_r($response);
 
         } elseif ($response->isRedirect()) {
 
@@ -85,9 +90,4 @@ class StripeController extends AbstractController
         }
     }
 
-    private function stripeToken(){
-        $gateway = Omnipay::create('Stripe');
-        $gateway->setApiKey('');
-
-    }
 }

@@ -1,4 +1,5 @@
 import {Panel, Grid, Row, Col, Button, ButtonGroup, Steps} from "rsuite";
+import {useParams} from 'react-router-dom';
 import React, {useEffect, useRef, useState} from "react";
 import {PaymentForm} from "./PaymentForm";
 import AddonsForm from "./AddonsForm";
@@ -9,7 +10,19 @@ import useFetch from "use-http";
 
 export default function PaymentPage(){
 
-    const roomPrice = 255;
+    const {ulid} = useParams();
+    const { get, post, response, loading, error } = useFetch('http://10.10.203.81');
+    const [paymentObject, setPaymentObject] = useState({amount:0});
+    const [fullAmount, setFullAmount] = useState(paymentObject.amount);
+
+    useEffect(()=>{
+        get("/api/get-payment/" + ulid).then(response  => setPaymentObject(response));
+    },[]);
+
+    useEffect(()=>{
+        setFullAmount(value => value + paymentObject.amount);
+    },[paymentObject]);
+
     const labels = ["Details","Addons", "Card" ]
 
     const [step, setStep] = useState(0);
@@ -23,7 +36,7 @@ export default function PaymentPage(){
     const [addonsInfo, setAddonsInfo] = useState({addons:[]});
 
     const [myR, setMyR] = useState();
-    const { get, post, response, loading, error } = useFetch('http://10.10.203.81');
+
 
     async function submitPayment() {
         const formData = new FormData();
@@ -32,9 +45,12 @@ export default function PaymentPage(){
         formData.append('addonsInfo', JSON.stringify(addonsInfo));
         const data = await post('/api/payment/booking', formData)
         if (response.ok) (setMyR(data))
+        else{
+
+        }
     }
 
-    const [fullAmount, setFullAmount] = useState(roomPrice);
+
 
 
 
@@ -68,8 +84,7 @@ export default function PaymentPage(){
             //validator: ()=>addonsFormRef.current.check()
         },
         {
-            component: <CardDetailsForm formRef={cardDetailsFormRef} formValue={cardInfo} updater={setCardInfo} />,
-            validator: ()=>cardDetailsFormRef.current.check()
+            component: <CardDetailsForm formRef={cardDetailsFormRef} formValue={cardInfo} updater={setCardInfo} />
         }
         ];
 
@@ -80,11 +95,12 @@ export default function PaymentPage(){
             selectedPrices = selectedAddons.map((addon)=> addon.price);
         }
         const addonsCost = selectedPrices.reduce((accumulator, currentValue) => accumulator + currentValue);
-        setFullAmount(roomPrice + addonsCost);
+        setFullAmount(paymentObject.amount + addonsCost);
     },[addonsInfo])
 
 
     const onNext = (step) => {
+        console.log("step", step);
         if(components[step].validator){
             if(components[step].validator()){
                 if(step===labels.length-1){
@@ -95,7 +111,11 @@ export default function PaymentPage(){
 
             }
         }else{
-            onChange(step + 1);
+            if(step===labels.length-1){
+                submitPayment();
+            }else{
+                onChange(step + 1);
+            }
         }
     }
 
@@ -130,7 +150,7 @@ export default function PaymentPage(){
                     </Col>
                     <Col xs={8} style={{backgroundColor:"#F3F3F4", height:"100vh"}}>
                         <div>Total to pay: £ {fullAmount}</div>
-                        <DatesBox />
+                        <DatesBox checkin={paymentObject.checkin} checkout={paymentObject.checkout} />
                         <div>{myR}</div>
                     </Col>
                 </Row>

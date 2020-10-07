@@ -44,6 +44,8 @@ function App(){
                 <Route path={Routes.passwordRecovery} children={recoverPage}/>
                 <Route path={Routes.dashboard} children={dashboardPage}/>
                 <Route path={Routes.main} children={loginPage}/>
+                <Route path={Routes.pay} children={paymentPage}/>
+                <Route path={Routes.success} children={<div>SUCCESS</div>}/>
             </Switch>
         </>);
 
@@ -52,7 +54,7 @@ function App(){
             <Switch>
                 <Route exact path={Routes.main} children={paymentPage} />
                 <Route exact path={Routes.registration} children={registrationPage}/>
-
+                <Route path={Routes.pay} children={paymentPage}/>
             </Switch>
         </>);
 

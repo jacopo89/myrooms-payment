@@ -1,10 +1,16 @@
 import {DateRangePicker, Panel} from "rsuite";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 
-export function DatesBox(){
+export function DatesBox({checkin, checkout}){
 
-    const [dates, setDates] = useState([new Date('2020-09-15'), new Date('2020-09-28')]);
+    const [dates, setDates] = useState();
+
+    useEffect(()=>{
+        setDates([new Date(checkin), new Date(checkout)]);
+    },[checkin, checkout])
+
+
 
     return <Panel bordered style={boxStyle}>
         <DateRangePicker

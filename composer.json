@@ -5,7 +5,13 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "league/omnipay": "^3",
         "lexik/jwt-authentication-bundle": "^2.6",
+        "myrooms/payment-contracts": "dev-master",
+        "omnipay/paypal": "^3.0",
+        "omnipay/stripe": "^3.1",
+        "robinvdvleuten/ulid": "^4.1",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.0.*",
@@ -32,7 +38,7 @@
         "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
-      "ext-json": "*"
+      "ext-http": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
@@ -80,10 +86,8 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "5.0.*"
-        }
-    }
+    "repositories": [{
+        "name": "myrooms/payment-contracts",
+        "type": "vcs", "url": "https://github.com/myroomsUK/payment-contracts.git"
+    }]
 }
