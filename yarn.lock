@@ -6371,9 +6371,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 ua-parser-js@^0.7.18:
-  version "0.7.21"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
-  integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
@@ -6498,24 +6498,24 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-urs@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/urs/-/urs-0.0.7.tgz#2dbf320a68a54bbd67ab9c5ac103b0f2227ca6be"
-  integrity sha512-NDwuby5BP7D60RjHlow8Gch4yfglLdCpZagGeVDZNcL+jsA2v6RcBhPTJraqq1oQ1U3LT1bQfgmwgNUUIFht+g==
+urs@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/urs/-/urs-0.0.8.tgz#8a0e0b792073cdb7eec926d08ab1e017ffab3f66"
+  integrity sha512-LaSSPpr91XrVA3vW2zPupw4K6DSQEDKdL4yQZX1mO2fpljIMpB5zctrjRvxLurelWSgKsHsCmfHNCImscryirQ==
 
-use-http@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/use-http/-/use-http-1.0.13.tgz#bc8abb06b7debab6a11c14bf81a1762fed783ee0"
-  integrity sha512-H1pR9DeqDBSbbmssQWc5bXP1wCvKbg0T6B2lIJjZxKc54jcerKTUwLAnT48sxrSEkQiUgdCb1aRqfOCWIkRJ0A==
+use-http@^1.0.15:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/use-http/-/use-http-1.0.20.tgz#15d9d2a239f8621bc76fd191418fd601deafebae"
+  integrity sha512-3JOASSO828AsUwGjH3nhjUxHpR0lxIUSSNO/OM+0YydETX6FWJV5zWiGKTOV1Gsxu/3GLRFUbEJ1Cl3mUGkfnw==
   dependencies:
-    urs "^0.0.7"
-    use-ssr "^1.0.22"
+    urs "^0.0.8"
+    use-ssr "^1.0.24"
     utility-types "^3.10.0"
 
-use-ssr@^1.0.22:
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.23.tgz#3bde1e10cd01b3b61ab6386d7cddb72e74828bf8"
-  integrity sha512-5bvlssgROgPgIrnILJe2mJch4e2Id0/bVm1SQzqvPvEAXmlsinCCVHWK3a2iHcPat7PkdJHBo0gmSmODIz6tNA==
+use-ssr@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.24.tgz#213a3df58f5ab9268e6fe1a57ad0a9de91e514d1"
+  integrity sha512-0MFps7ezL57/3o0yl4CvrHLlp9z20n1rQZV/lSRz7if+TUoM6POU1XdOvEjIgjgKeIhTEye1U0khrIYWCTWw4g==
 
 use@^3.1.0:
   version "3.1.1"
